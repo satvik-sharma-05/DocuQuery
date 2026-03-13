@@ -21,7 +21,7 @@ export interface Workspace {
     description?: string
     role: string
     member_count: number
-    document_count?: number
+    document_count?: number  // Number of documents in workspace
     created_at: string
     owner_id?: string
     owner_name?: string
