@@ -10,6 +10,7 @@ interface Workspace {
     description?: string
     role: string
     member_count: number
+    document_count?: number
     created_at: string
     owner_id?: string
     owner_name?: string
