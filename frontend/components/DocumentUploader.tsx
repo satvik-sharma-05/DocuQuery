@@ -65,12 +65,16 @@ export default function DocumentUploader({ onUploadSuccess }: DocumentUploaderPr
             formData.append('file', selectedFile)
             formData.append('description', description.trim())
 
+            console.log('Starting upload...', selectedFile.name, selectedFile.size)
+
             await api.post('/api/documents/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                timeout: 300000, // 5 minutes for file upload
             })
 
+            console.log('Upload successful!')
             toast.success('Document uploaded successfully!', {
                 description: 'Processing your document...'
             })
@@ -83,7 +87,7 @@ export default function DocumentUploader({ onUploadSuccess }: DocumentUploaderPr
         } catch (error: any) {
             console.error('Upload error:', error)
             toast.error('Upload failed', {
-                description: error.response?.data?.detail || 'Please try again'
+                description: error.response?.data?.detail || error.message || 'Please try again'
             })
         } finally {
             setUploading(false)
