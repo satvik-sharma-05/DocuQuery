@@ -13,14 +13,77 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python)](https://www.python.org/)
 
+🚀 **[Live Demo](https://docuquery.vercel.app)** • 📚 **[API Documentation](https://docuquery-api.railway.app/docs)** • 🎥 **[Video Demo](https://github.com/satvik-sharma-05/DocuQuery)** • 📖 **[Documentation](https://github.com/satvik-sharma-05/DocuQuery/wiki)**
+
 [Features](#features) • [Architecture](#system-architecture) • [Quick Start](#quick-start) • [API Docs](#api-documentation) • [Deployment](#deployment)
 
 </div>
 
 ---
 
+## 🌟 Live Application
+
+### 🔗 Production Links
+
+| Service | URL | Status |
+|---------|-----|--------|
+| **Frontend** | [https://docuquery.vercel.app](https://docuquery.vercel.app) | ✅ Live |
+| **Backend API** | [https://docuquery-api.railway.app](https://docuquery-api.railway.app) | ✅ Live |
+| **API Documentation** | [https://docuquery-api.railway.app/docs](https://docuquery-api.railway.app/docs) | ✅ Live |
+| **Health Check** | [https://docuquery-api.railway.app/health](https://docuquery-api.railway.app/health) | ✅ Live |
+
+### 🎯 Quick Demo
+
+**Try DocuQuery now:**
+1. 🌐 Visit [https://docuquery.vercel.app](https://docuquery.vercel.app)
+2. 📝 Register a new account (creates default workspace)
+3. 📄 Upload a PDF, DOCX, TXT, or MD document
+4. 💬 Ask questions about your document using natural language
+5. 🤖 Get AI-powered answers with source citations
+
+### 🎥 Demo Credentials
+
+For testing purposes, you can use:
+- **Email**: demo@docuquery.com
+- **Password**: DemoUser123!
+
+*Note: Demo data is reset daily*
+
+---
+
+## 🚀 Latest Updates (March 2026)
+
+### ✨ Recent Improvements
+
+**🎨 UI/UX Enhancements (Latest)**
+- ✅ **Fixed Sign-Out Functionality** - Proper session cleanup and redirection
+- ✅ **Modern Toast Notifications** - Replaced browser alerts with beautiful Sonner toasts
+- ✅ **Full Responsive Design** - Perfect experience on desktop, tablet, and mobile
+- ✅ **Enhanced Loading States** - Comprehensive loading indicators with helpful messages
+- ✅ **Smooth Animations** - Polished interactions with Framer Motion
+- ✅ **Better Authentication Feedback** - Specific error messages and success notifications
+
+**🔧 Technical Improvements**
+- ✅ **Optimized RAG Pipeline** - Faster document processing and query responses
+- ✅ **Enhanced Security** - Row Level Security (RLS) and improved authentication
+- ✅ **Performance Optimizations** - Database indexing and connection pooling
+- ✅ **Mobile-First Design** - Responsive layouts and touch-friendly interactions
+
+### 📊 Current Stats
+
+- **🏢 Multi-Workspace Support** - Unlimited workspaces per user
+- **📄 Document Processing** - PDF, DOCX, TXT, MD support up to 20MB
+- **🤖 AI-Powered Chat** - Cohere's latest models for accurate responses
+- **👥 Team Collaboration** - Role-based access control (Owner/Admin/Member)
+- **📈 Analytics Dashboard** - Usage insights and trend analysis
+- **🔔 Real-time Notifications** - In-app notification system
+
+---
+
 ## 📋 Table of Contents
 
+- [Live Application](#live-application)
+- [Latest Updates](#latest-updates)
 - [Project Overview](#project-overview)
 - [Product Demo](#product-demo)
 - [Features](#features)
@@ -36,9 +99,53 @@
 - [Deployment Guide](#deployment-guide)
 - [Local Development Setup](#local-development-setup)
 - [Testing](#testing)
-- [Future Improvements](#future-improvements)
 - [Contributing](#contributing)
+- [Repository Information](#repository-information)
 - [License](#license)
+
+---
+
+## 📁 Repository Information
+
+### 🔗 Links
+
+- **GitHub Repository**: [https://github.com/satvik-sharma-05/DocuQuery](https://github.com/satvik-sharma-05/DocuQuery)
+- **Issues & Bug Reports**: [https://github.com/satvik-sharma-05/DocuQuery/issues](https://github.com/satvik-sharma-05/DocuQuery/issues)
+- **Discussions**: [https://github.com/satvik-sharma-05/DocuQuery/discussions](https://github.com/satvik-sharma-05/DocuQuery/discussions)
+- **Wiki Documentation**: [https://github.com/satvik-sharma-05/DocuQuery/wiki](https://github.com/satvik-sharma-05/DocuQuery/wiki)
+
+### 📊 Project Stats
+
+![GitHub stars](https://img.shields.io/github/stars/satvik-sharma-05/DocuQuery?style=social)
+![GitHub forks](https://img.shields.io/github/forks/satvik-sharma-05/DocuQuery?style=social)
+![GitHub issues](https://img.shields.io/github/issues/satvik-sharma-05/DocuQuery)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/satvik-sharma-05/DocuQuery)
+![GitHub last commit](https://img.shields.io/github/last-commit/satvik-sharma-05/DocuQuery)
+![GitHub repo size](https://img.shields.io/github/repo-size/satvik-sharma-05/DocuQuery)
+
+### 🏗️ Project Structure
+
+```
+DocuQuery/
+├── 📁 frontend/          # Next.js 14 React application
+│   ├── app/              # App Router pages
+│   ├── components/       # Reusable UI components
+│   ├── contexts/         # React contexts (Auth, Workspace)
+│   ├── lib/              # Utilities and API client
+│   └── types/            # TypeScript type definitions
+├── 📁 backend/           # FastAPI Python application
+│   ├── app/              # Application code
+│   │   ├── core/         # Core functionality (config, security)
+│   │   ├── models/       # Data models and schemas
+│   │   ├── routes/       # API endpoints
+│   │   └── services/     # Business logic services
+│   └── main.py           # FastAPI application entry point
+├── 📁 database/          # Database schemas and migrations
+├── 📁 docs/              # Additional documentation
+├── 📄 README.md          # This file
+├── 📄 DEPLOYMENT_GUIDE.md # Detailed deployment instructions
+└── 📄 DEPLOYMENT_STATUS.md # Current deployment status
+```
 
 ---
 
@@ -4106,8 +4213,8 @@ We welcome contributions from the community! Here's how you can help:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/yourusername/docuquery.git
-   cd docuquery
+   git clone https://github.com/satvik-sharma-05/DocuQuery.git
+   cd DocuQuery
    ```
 
 2. **Create a feature branch**
@@ -4212,13 +4319,13 @@ Closes #123
 ### Areas for Contribution
 
 #### 🐛 Bug Fixes
-- Check [Issues](https://github.com/yourusername/docuquery/issues) for bugs
+- Check [Issues](https://github.com/satvik-sharma-05/DocuQuery/issues) for bugs
 - Reproduce the issue
 - Fix and add tests
 - Submit PR
 
 #### ✨ New Features
-- Check [Feature Requests](https://github.com/yourusername/docuquery/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+- Check [Feature Requests](https://github.com/satvik-sharma-05/DocuQuery/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 - Discuss implementation approach
 - Implement with tests
 - Update documentation
@@ -4278,9 +4385,9 @@ SOFTWARE.
 ### Getting Help
 
 1. **Documentation**: Read this README thoroughly
-2. **API Docs**: Check http://localhost:8000/docs for API reference
-3. **Issues**: Search [existing issues](https://github.com/yourusername/docuquery/issues)
-4. **Discussions**: Join [GitHub Discussions](https://github.com/yourusername/docuquery/discussions)
+2. **API Docs**: Check [https://docuquery-api.railway.app/docs](https://docuquery-api.railway.app/docs) for API reference
+3. **Issues**: Search [existing issues](https://github.com/satvik-sharma-05/DocuQuery/issues)
+4. **Discussions**: Join [GitHub Discussions](https://github.com/satvik-sharma-05/DocuQuery/discussions)
 
 ### Reporting Issues
 
@@ -4464,7 +4571,7 @@ If you find DocuQuery useful, please consider giving it a star on GitHub! ⭐
 
 **Built with ❤️ for collaborative document intelligence**
 
-[Website](https://docuquery.com) • [Documentation](https://docs.docuquery.com) • [API Reference](https://api.docuquery.com/docs) • [Blog](https://blog.docuquery.com)
+[Live Demo](https://docuquery.vercel.app) • [API Documentation](https://docuquery-api.railway.app/docs) • [GitHub Repository](https://github.com/satvik-sharma-05/DocuQuery) • [Issues](https://github.com/satvik-sharma-05/DocuQuery/issues)
 
 ---
 
