@@ -13,7 +13,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python)](https://www.python.org/)
 
-🚀 **[Live Demo](https://docuquery.vercel.app)** • 📚 **[API Documentation](https://docuquery-api.railway.app/docs)** • 🎥 **[Video Demo](https://github.com/satvik-sharma-05/DocuQuery)** • 📖 **[Documentation](https://github.com/satvik-sharma-05/DocuQuery/wiki)**
+🚀 **[Live Demo](https://docu-query-sigma.vercel.app)** • 📚 **[API Documentation](https://docuquery-api.onrender.com/docs)** • 🎥 **[Video Demo](https://github.com/satvik-sharma-05/DocuQuery)** • 📖 **[Documentation](https://github.com/satvik-sharma-05/DocuQuery/wiki)**
 
 [Features](#features) • [Architecture](#system-architecture) • [Quick Start](#quick-start) • [API Docs](#api-documentation) • [Deployment](#deployment)
 
@@ -27,15 +27,15 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **Frontend** | [https://docuquery.vercel.app](https://docuquery.vercel.app) | ✅ Live |
-| **Backend API** | [https://docuquery-api.railway.app](https://docuquery-api.railway.app) | ✅ Live |
-| **API Documentation** | [https://docuquery-api.railway.app/docs](https://docuquery-api.railway.app/docs) | ✅ Live |
-| **Health Check** | [https://docuquery-api.railway.app/health](https://docuquery-api.railway.app/health) | ✅ Live |
+| **Frontend** | [https://docu-query-sigma.vercel.app](https://docu-query-sigma.vercel.app) | ✅ Live |
+| **Backend API** | [https://docuquery-api.onrender.com](https://docuquery-api.onrender.com) | ✅ Live |
+| **API Documentation** | [https://docuquery-api.onrender.com/docs](https://docuquery-api.onrender.com/docs) | ✅ Live |
+| **Health Check** | [https://docuquery-api.onrender.com/health](https://docuquery-api.onrender.com/health) | ✅ Live |
 
 ### 🎯 Quick Demo
 
 **Try DocuQuery now:**
-1. 🌐 Visit [https://docuquery.vercel.app](https://docuquery.vercel.app)
+1. 🌐 Visit [https://docu-query-sigma.vercel.app](https://docu-query-sigma.vercel.app)
 2. 📝 Register a new account (creates default workspace)
 3. 📄 Upload a PDF, DOCX, TXT, or MD document
 4. 💬 Ask questions about your document using natural language
@@ -3461,7 +3461,7 @@ WHERE status = 'pending';
 #### Option A: Railway
 
 ```bash
-1. Go to https://railway.app
+1. Go to https://render.com
 2. Click "New Project" > "Deploy from GitHub repo"
 3. Select your repository
 4. Configure:
@@ -3543,7 +3543,7 @@ ALLOWED_FILE_TYPES=pdf,docx,txt,md
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-NEXT_PUBLIC_API_URL=https://your-backend.railway.app
+NEXT_PUBLIC_API_URL=https://your-backend.onrender.com
 ```
 
 #### 3. Deploy
@@ -4385,7 +4385,7 @@ SOFTWARE.
 ### Getting Help
 
 1. **Documentation**: Read this README thoroughly
-2. **API Docs**: Check [https://docuquery-api.railway.app/docs](https://docuquery-api.railway.app/docs) for API reference
+2. **API Docs**: Check [https://docuquery-api.onrender.com/docs](https://docuquery-api.onrender.com/docs) for API reference
 3. **Issues**: Search [existing issues](https://github.com/satvik-sharma-05/DocuQuery/issues)
 4. **Discussions**: Join [GitHub Discussions](https://github.com/satvik-sharma-05/DocuQuery/discussions)
 
@@ -4420,7 +4420,7 @@ We love hearing your ideas! When requesting features:
 - **[FastAPI](https://fastapi.tiangolo.com/)** - Making our backend development fast and enjoyable
 - **[pgvector](https://github.com/pgvector/pgvector)** - Bringing vector similarity search to PostgreSQL
 - **[Vercel](https://vercel.com/)** - Hosting our frontend with excellent performance
-- **[Railway](https://railway.app/)** - Simplifying our backend deployment
+- **[Render](https://render.com/)** - Simplifying our backend deployment
 
 ### Open Source Libraries
 
@@ -4571,7 +4571,7 @@ If you find DocuQuery useful, please consider giving it a star on GitHub! ⭐
 
 **Built with ❤️ for collaborative document intelligence**
 
-[Live Demo](https://docuquery.vercel.app) • [API Documentation](https://docuquery-api.railway.app/docs) • [GitHub Repository](https://github.com/satvik-sharma-05/DocuQuery) • [Issues](https://github.com/satvik-sharma-05/DocuQuery/issues)
+[Live Demo](https://docu-query-sigma.vercel.app) • [API Documentation](https://docuquery-api.onrender.com/docs) • [GitHub Repository](https://github.com/satvik-sharma-05/DocuQuery) • [Issues](https://github.com/satvik-sharma-05/DocuQuery/issues)
 
 ---
 
