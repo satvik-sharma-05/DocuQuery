@@ -62,8 +62,20 @@ export default function RegisterPage() {
 
         } catch (error: any) {
             console.error('Registration error:', error)
-            toast.error('Registration failed', {
-                description: error.response?.data?.detail || 'Please try again'
+
+            // Provide specific error messages
+            let errorMessage = 'Registration failed'
+            let errorDescription = 'Please try again'
+
+            if (error.response?.status === 409) {
+                errorMessage = 'Account already exists'
+                errorDescription = 'An account with this email already exists'
+            } else if (error.response?.data?.detail) {
+                errorDescription = error.response.data.detail
+            }
+
+            toast.error(errorMessage, {
+                description: errorDescription
             })
         } finally {
             setLoading(false)

@@ -68,7 +68,7 @@ export default function ResponsiveDashboardLayout({ children }: ResponsiveDashbo
                 transition={{ duration: 0.3 }}
                 className={`
                     pt-16 min-h-screen transition-all duration-300 ease-in-out
-                    ${!isMobile && isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}
+                    ${!isMobile ? (isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64') : ''}
                 `}
             >
                 {isChatPage ? (

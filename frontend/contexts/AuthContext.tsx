@@ -161,12 +161,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const logout = async () => {
         try {
+            // Clear all local storage and session storage
+            localStorage.clear()
+            sessionStorage.clear()
+
+            // Sign out from Supabase
             await supabase.auth.signOut()
-            localStorage.removeItem('currentWorkspaceId')
+
+            // Clear user state
             setUser(null)
+
+            // Redirect to login
             router.push('/auth/login')
+
+            // Show success toast
+            toast.success('Signed out successfully')
         } catch (error) {
             console.error('Logout error:', error)
+            toast.error('Failed to sign out')
         }
     }
 

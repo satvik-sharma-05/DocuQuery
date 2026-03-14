@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useWorkspace } from '@/contexts/WorkspaceContext'
-import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/contexts/AuthContext'
 import {
     Building2,
     ChevronDown,
@@ -26,21 +25,19 @@ interface ModernHeaderProps {
 }
 
 export default function ModernHeader({ user }: ModernHeaderProps) {
-    const router = useRouter()
     const { workspaces, currentWorkspace, switchWorkspace, refreshWorkspaces } = useWorkspace()
+    const { logout } = useAuth()
     const [showUserMenu, setShowUserMenu] = useState(false)
     const [showWorkspaceMenu, setShowWorkspaceMenu] = useState(false)
     const [showCreateModal, setShowCreateModal] = useState(false)
 
     const handleLogout = async () => {
         try {
-            await supabase.auth.signOut()
-            localStorage.removeItem('currentWorkspaceId')
-            toast.success('Logged out successfully')
-            router.push('/')
+            setShowUserMenu(false)
+            await logout()
         } catch (error) {
             console.error('Logout error:', error)
-            toast.error('Logout failed')
+            toast.error('Failed to sign out')
         }
     }
 

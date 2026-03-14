@@ -192,6 +192,220 @@
     .animate-scale-in {
         animation: scale-in 0.2s ease-out;
     }
+
+    /* Enhanced Loading States */
+    .loading-message {
+        @apply text-sm text-gray-600 mt-2 animate-pulse;
+    }
+
+    .loading-message-persistent {
+        @apply text-sm text-gray-500 mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg animate-fade-in;
+    }
+
+    /* Responsive Grid Improvements */
+    .responsive-grid-1-2-3 {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+    }
+
+    .responsive-grid-1-2-4 {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6;
+    }
+
+    .responsive-grid-1-3 {
+        @apply grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6;
+    }
+
+    /* Mobile-first responsive containers */
+    .mobile-container {
+        @apply px-4 sm:px-6 lg:px-8;
+    }
+
+    /* Enhanced card responsiveness */
+    .card-responsive {
+        @apply card p-4 sm:p-6 hover:shadow-lg transition-all duration-300;
+    }
+
+    /* Better mobile text sizing */
+    .heading-responsive {
+        @apply text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900;
+    }
+
+    .subheading-responsive {
+        @apply text-base sm:text-lg lg:text-xl text-gray-600;
+    }
+
+    /* Mobile-friendly buttons */
+    .btn-mobile {
+        @apply px-3 py-2 sm:px-4 sm:py-2 text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95;
+    }
+
+    /* Improved mobile sidebar */
+    .sidebar-mobile-improved {
+        @apply fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0;
+    }
+
+    /* Better mobile spacing */
+    .space-y-mobile {
+        @apply space-y-4 sm:space-y-6 lg:space-y-8;
+    }
+
+    /* Enhanced table responsiveness */
+    .table-responsive {
+        @apply overflow-x-auto -mx-4 sm:mx-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100;
+    }
+
+    .table-responsive table {
+        @apply min-w-full;
+    }
+
+    /* Loading spinner improvements */
+    .spinner-sm {
+        @apply w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin;
+    }
+
+    .spinner-md {
+        @apply w-6 h-6 border-2 border-current border-t-transparent rounded-full animate-spin;
+    }
+
+    .spinner-lg {
+        @apply w-8 h-8 border-2 border-current border-t-transparent rounded-full animate-spin;
+    }
+
+    /* Enhanced hover effects */
+    .hover-lift {
+        @apply transition-all duration-300 hover:scale-105 hover:shadow-lg;
+    }
+
+    .hover-glow {
+        @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary-500/25;
+    }
+
+    /* Better focus states */
+    .focus-ring-enhanced {
+        @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white transition-all duration-200;
+    }
+
+    /* Smooth transitions for layout changes */
+    .layout-transition {
+        @apply transition-all duration-300 ease-in-out;
+    }
+
+    /* Mobile-optimized forms */
+    .form-mobile {
+        @apply space-y-4 sm:space-y-6;
+    }
+
+    .input-mobile {
+        @apply input-field text-base sm:text-sm;
+        /* Prevent zoom on iOS */
+    }
+
+    /* Better mobile navigation */
+    .nav-mobile {
+        @apply flex flex-col space-y-1 sm:flex-row sm:space-y-0 sm:space-x-4;
+    }
+
+    /* Enhanced animations */
+    .animate-slide-up {
+        animation: slide-up 0.3s ease-out;
+    }
+
+    .animate-slide-down {
+        animation: slide-down 0.3s ease-out;
+    }
+
+    .animate-bounce-in {
+        animation: bounce-in 0.5s ease-out;
+    }
+}
+
+/* Custom Animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scale-in {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 /* Custom Scrollbar */
@@ -202,15 +416,31 @@
 
 ::-webkit-scrollbar-track {
     background: #f1f5f9;
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 3px;
+    transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+/* Thin scrollbar utility */
+.scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.scrollbar-thumb-gray-300 {
+    scrollbar-color: #d1d5db #f1f5f9;
+}
+
+.scrollbar-track-gray-100 {
+    scrollbar-color: #cbd5e1 #f3f4f6;
 }
 
 /* Focus Styles */

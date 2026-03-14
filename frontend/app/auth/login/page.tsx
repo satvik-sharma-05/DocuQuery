@@ -58,8 +58,23 @@ export default function LoginPage() {
 
         } catch (error: any) {
             console.error('Login error:', error)
-            toast.error('Login failed', {
-                description: error.response?.data?.detail || 'Invalid email or password'
+
+            // Provide specific error messages
+            let errorMessage = 'Login failed'
+            let errorDescription = 'Please try again'
+
+            if (error.response?.status === 401) {
+                errorMessage = 'Invalid credentials'
+                errorDescription = 'Incorrect email or password'
+            } else if (error.response?.status === 404) {
+                errorMessage = 'Account not found'
+                errorDescription = 'No account found with that email address'
+            } else if (error.response?.data?.detail) {
+                errorDescription = error.response.data.detail
+            }
+
+            toast.error(errorMessage, {
+                description: errorDescription
             })
         } finally {
             setLoading(false)

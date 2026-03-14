@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { usePathname } from 'next/navigation'
 import { useWorkspace } from '@/contexts/WorkspaceContext'
+import { useAuth } from '@/contexts/AuthContext'
 import CreateWorkspaceModal from './CreateWorkspaceModal'
 import {
     LogOut,
@@ -19,7 +19,7 @@ import {
     Plus,
     Users
 } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { toast } from 'sonner'
 
 interface HeaderProps {
     user: {
@@ -38,22 +38,20 @@ const navigation = [
 ]
 
 export default function Header({ user }: HeaderProps) {
-    const router = useRouter()
     const pathname = usePathname()
     const { workspaces, currentWorkspace, switchWorkspace, refreshWorkspaces } = useWorkspace()
+    const { logout } = useAuth()
     const [showUserMenu, setShowUserMenu] = useState(false)
     const [showWorkspaceMenu, setShowWorkspaceMenu] = useState(false)
     const [showCreateModal, setShowCreateModal] = useState(false)
 
     const handleLogout = async () => {
         try {
-            await supabase.auth.signOut()
-            localStorage.removeItem('currentWorkspaceId')
-            toast.success('Logged out successfully')
-            router.push('/')
+            setShowUserMenu(false)
+            await logout()
         } catch (error) {
             console.error('Logout error:', error)
-            toast.error('Logout failed')
+            toast.error('Failed to sign out')
         }
     }
 

@@ -33,8 +33,19 @@ export default function ResponsiveHeader({
     const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false)
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
     const workspaceDropdownRef = useRef<HTMLDivElement>(null)
     const userDropdownRef = useRef<HTMLDivElement>(null)
+
+    // Check mobile state
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 1024)
+        }
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
 
     // Close dropdowns when clicking outside
     useEffect(() => {
@@ -97,7 +108,7 @@ export default function ResponsiveHeader({
                 animate={{ y: 0, opacity: 1 }}
                 className={`
                     fixed top-0 right-0 h-16 bg-white border-b border-gray-200 z-30 transition-all duration-300
-                    ${isSidebarCollapsed ? 'lg:left-16' : 'lg:left-64'} left-0
+                    ${!isMobile ? (isSidebarCollapsed ? 'lg:left-16' : 'lg:left-64') : 'left-0'}
                 `}
             >
                 <div className="flex items-center justify-between h-full px-4 lg:px-6">
