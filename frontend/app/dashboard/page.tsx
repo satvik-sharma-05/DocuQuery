@@ -36,14 +36,8 @@ export default function DashboardPage() {
                 setLoading(true)
                 setLoadingTooLong(false)
 
-                // Show "loading too long" message after 5 seconds
-                const timeoutId = setTimeout(() => {
-                    setLoadingTooLong(true)
-                }, 5000)
-
                 const response = await api.get('/api/analytics/dashboard')
                 setAnalytics(response.data)
-                clearTimeout(timeoutId)
             } catch (error) {
                 console.error('Failed to fetch analytics:', error)
                 toast.error('Failed to load dashboard data', {

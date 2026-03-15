@@ -206,8 +206,8 @@ export default function Header({ user }: HeaderProps) {
                 onClose={() => setShowCreateModal(false)}
                 onSuccess={() => {
                     refreshWorkspaces()
-                    toast.success('Workspace created! Refreshing...')
-                    setTimeout(() => window.location.reload(), 1000)
+                    toast.success('Workspace created successfully!')
+                    window.location.reload()
                 }}
             />
         </header>

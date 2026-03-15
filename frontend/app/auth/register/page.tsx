@@ -56,9 +56,7 @@ export default function RegisterPage() {
                 description: 'Welcome to DocuQuery'
             })
 
-            setTimeout(() => {
-                router.push('/dashboard')
-            }, 500)
+            router.push('/dashboard')
 
         } catch (error: any) {
             console.error('Registration error:', error)

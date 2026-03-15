@@ -50,18 +50,12 @@ export default function AnalyticsPage() {
                 setLoading(true)
                 setLoadingTooLong(false)
 
-                // Show "loading too long" message after 5 seconds
-                const timeoutId = setTimeout(() => {
-                    setLoadingTooLong(true)
-                }, 5000)
-
                 const [dashboardRes, timeSeriesRes] = await Promise.all([
                     api.get('/api/analytics/dashboard'),
                     api.get('/api/analytics/time-series?days=30')
                 ])
                 setAnalytics(dashboardRes.data)
                 setTimeSeriesData(timeSeriesRes.data)
-                clearTimeout(timeoutId)
             } catch (error: any) {
                 console.error('Failed to fetch analytics:', error)
 

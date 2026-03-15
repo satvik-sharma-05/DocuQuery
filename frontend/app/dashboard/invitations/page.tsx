@@ -54,7 +54,7 @@ export default function InvitationsPage() {
             // Remove from list
             setInvitations(invitations.filter(inv => inv.id !== invitationId))
             // Reload page to refresh workspaces
-            setTimeout(() => window.location.href = '/dashboard', 1000)
+            window.location.href = '/dashboard'
         } catch (error: any) {
             console.error('Accept error:', error)
             toast.error('Failed to accept invitation', {

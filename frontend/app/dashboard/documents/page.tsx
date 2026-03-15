@@ -38,14 +38,8 @@ export default function DocumentsPage() {
             setLoading(true)
             setLoadingTooLong(false)
 
-            // Show "loading too long" message after 5 seconds
-            const timeoutId = setTimeout(() => {
-                setLoadingTooLong(true)
-            }, 5000)
-
             const response = await api.get('/api/documents/')
             setDocuments(response.data)
-            clearTimeout(timeoutId)
         } catch (error: any) {
             console.error('Failed to fetch documents:', error)
 

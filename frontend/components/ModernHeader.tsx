@@ -189,7 +189,7 @@ export default function ModernHeader({ user }: ModernHeaderProps) {
                 onSuccess={() => {
                     refreshWorkspaces()
                     toast.success('Workspace created successfully!')
-                    setTimeout(() => window.location.reload(), 1000)
+                    window.location.reload()
                 }}
             />
         </>

@@ -23,15 +23,9 @@ export default function ChatPage() {
             setLoading(true)
             setLoadingTooLong(false)
 
-            // Show "loading too long" message after 5 seconds
-            const timeoutId = setTimeout(() => {
-                setLoadingTooLong(true)
-            }, 5000)
-
             const response = await api.get('/api/chat/conversations')
             console.log('Conversations fetched:', response.data)
             setConversations(response.data)
-            clearTimeout(timeoutId)
         } catch (error: any) {
             console.error('Failed to fetch conversations:', error)
 
