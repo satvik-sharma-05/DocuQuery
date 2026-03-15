@@ -220,7 +220,9 @@ Please provide a detailed answer based on the information in the documents above
                 }
             ]
             
-            logger.info("Calling OpenRouter API...")
+            logger.info(f"🟢 OPENROUTER LLM API CALL - Generating answer")
+            logger.info(f"🟢 Using model: {self.llm_model}")
+            logger.info(f"🟢 Context chunks: {len(context_chunks)}")
             
             # Generate response using OpenRouter
             loop = asyncio.get_event_loop()
@@ -234,7 +236,7 @@ Please provide a detailed answer based on the information in the documents above
                 )
             )
             
-            logger.info("OpenRouter API call completed")
+            logger.info(f"✅ OPENROUTER LLM API SUCCESS - Response received")
             
             if not response or not response.choices:
                 raise Exception("Failed to get response from OpenRouter API")

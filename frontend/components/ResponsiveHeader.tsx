@@ -72,8 +72,12 @@ export default function ResponsiveHeader({
         try {
             const response = await api.get('/api/invitations/')
             setInvitations(response.data)
-        } catch (error) {
-            console.error('Failed to fetch invitations:', error)
+        } catch (error: any) {
+            // Silently fail if endpoint doesn't exist (404) or other errors
+            // This prevents console errors when invitations feature is not fully implemented
+            if (error.response?.status !== 404) {
+                console.error('Failed to fetch invitations:', error)
+            }
         }
     }
 

@@ -26,7 +26,8 @@ class EmbeddingService:
                 text = text[:max_length]
                 logger.warning(f"Text truncated to {max_length} characters")
             
-            logger.info(f"Generating embedding for text of length {len(text)}")
+            logger.info(f"🔵 OPENROUTER API CALL - Generating embedding for text of length {len(text)}")
+            logger.info(f"🔵 Using model: {self.model}")
             
             # Generate embedding using OpenRouter
             response = self.client.embeddings.create(
@@ -38,12 +39,12 @@ class EmbeddingService:
                 raise ValueError("No embeddings returned from OpenRouter")
             
             embedding = response.data[0].embedding
-            logger.info(f"Generated embedding with {len(embedding)} dimensions")
+            logger.info(f"✅ OPENROUTER API SUCCESS - Generated embedding with {len(embedding)} dimensions")
             
             return embedding
             
         except Exception as e:
-            logger.error(f"Error generating embedding: {str(e)}")
+            logger.error(f"❌ OPENROUTER API ERROR - Error generating embedding: {str(e)}")
             raise
     
     async def generate_embeddings_batch(self, texts: List[str]) -> List[List[float]]:
@@ -57,7 +58,8 @@ class EmbeddingService:
             if not valid_texts:
                 raise ValueError("No valid texts to embed")
             
-            logger.info(f"Generating embeddings for {len(valid_texts)} texts")
+            logger.info(f"🔵 OPENROUTER API CALL - Generating embeddings for {len(valid_texts)} texts")
+            logger.info(f"🔵 Using model: {self.model}")
             
             # Truncate texts if needed
             max_length = 8000
@@ -76,12 +78,12 @@ class EmbeddingService:
                 raise ValueError("No embeddings returned from OpenRouter")
             
             embeddings = [item.embedding for item in response.data]
-            logger.info(f"Generated {len(embeddings)} embeddings")
+            logger.info(f"✅ OPENROUTER API SUCCESS - Generated {len(embeddings)} embeddings")
             
             return embeddings
             
         except Exception as e:
-            logger.error(f"Error generating batch embeddings: {str(e)}")
+            logger.error(f"❌ OPENROUTER API ERROR - Error generating batch embeddings: {str(e)}")
             raise
 
 # Global instance
