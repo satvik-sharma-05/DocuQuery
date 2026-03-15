@@ -51,6 +51,34 @@ For testing purposes, you can use:
 
 ---
 
+## 📸 Screenshots
+
+### Homepage
+![Homepage](screenshots/Homepage.png)
+*Modern landing page with clear call-to-action and feature highlights*
+
+### Authentication
+![Login](screenshots/login.png)
+*Secure login with beautiful UI and proper error handling*
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+*Comprehensive dashboard with analytics, recent activity, and quick actions*
+
+### Document Management
+![Document Upload](screenshots/document_upload.png)
+*Easy document upload with drag-and-drop support and real-time processing*
+
+### AI Chat Interface
+![Chat](screenshots/caht.png)
+*Intelligent chat interface with source citations and conversation history*
+
+### Team Collaboration
+![Team Management](screenshots/team.png)
+*Workspace management with role-based access control and team invitations*
+
+---
+
 ## 🚀 Latest Updates (March 2026)
 
 ### ✨ Recent Improvements
@@ -83,6 +111,7 @@ For testing purposes, you can use:
 ## 📋 Table of Contents
 
 - [Live Application](#live-application)
+- [Screenshots](#screenshots)
 - [Latest Updates](#latest-updates)
 - [Project Overview](#project-overview)
 - [Product Demo](#product-demo)
