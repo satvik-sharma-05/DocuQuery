@@ -94,3 +94,5 @@ class EmbeddingService:
 
 # Global instance
 embedding_service = EmbeddingService()
+
+# Force rebuild marker - do not remove
