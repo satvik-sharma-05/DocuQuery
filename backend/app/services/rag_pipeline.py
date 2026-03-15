@@ -48,6 +48,8 @@ class EnhancedRAGPipeline:
             embedding_str = "[" + ",".join(map(str, query_embedding)) + "]"
             
             # Enhanced query with document metadata
+            # Using cosine distance operator (<->) and converting to similarity
+            # Cosine distance range: [0, 2], so similarity = 1 - (distance / 2)
             query = """
                 SELECT 
                     dc.id,
@@ -58,7 +60,7 @@ class EnhancedRAGPipeline:
                     d.created_at as document_created_at,
                     d.uploaded_by as uploader_id,
                     dc.embedding <-> $1::vector as distance,
-                    1 - (dc.embedding <-> $1::vector) as similarity_score
+                    1 - ((dc.embedding <-> $1::vector) / 2) as similarity_score
                 FROM document_chunks dc
                 JOIN documents d ON dc.document_id = d.id
                 WHERE d.workspace_id = $2
