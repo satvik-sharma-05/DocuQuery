@@ -1,4 +1,4 @@
-import cohere
+from openai import OpenAI
 from app.core.config import settings
 from app.services.embedding_service import embedding_service
 from app.models.database import db
@@ -11,7 +11,10 @@ logger = logging.getLogger(__name__)
 
 class EnhancedRAGPipeline:
     def __init__(self):
-        self.client = cohere.Client(settings.COHERE_API_KEY)
+        self.client = OpenAI(
+            api_key=settings.OPENROUTER_API_KEY,
+            base_url="https://openrouter.ai/api/v1"
+        )
         self.llm_model = settings.LLM_MODEL
         self.top_k = settings.TOP_K_RESULTS
         self.embedding_dimension = settings.EMBEDDING_DIMENSION
@@ -185,48 +188,58 @@ Please provide a detailed answer based on the information in the documents above
         query: str, 
         context_chunks: List[Dict[str, Any]]
     ) -> Tuple[str, List[Dict[str, Any]]]:
-        """Generate answer using Cohere Chat API with enhanced context"""
+        """Generate answer using OpenRouter Chat API with enhanced context"""
         try:
             if not context_chunks:
                 return "I couldn't find any relevant information in your documents to answer this question.", []
             
             logger.info(f"Generating answer with {len(context_chunks)} context chunks")
             
-            # Prepare documents for Cohere RAG
-            documents = []
-            for chunk in context_chunks:
-                doc_title = chunk["document_name"]
-                if chunk.get("document_description"):
-                    doc_title += f" - {chunk['document_description']}"
-                
-                documents.append({
-                    "title": doc_title,
-                    "snippet": chunk["content"]
-                })
+            # Build context from chunks
+            context_text = "\n\n".join([
+                f"Document: {chunk['document_name']}\n{chunk['content']}"
+                for chunk in context_chunks
+            ])
             
-            logger.info(f"Prepared {len(documents)} documents for Cohere")
+            # Truncate context if too long
+            if len(context_text) > self.max_context_length:
+                context_text = context_text[:self.max_context_length] + "..."
+                logger.warning(f"Context truncated to {self.max_context_length} characters")
             
-            # Generate response using Cohere Chat API with documents
+            logger.info(f"Prepared context with {len(context_text)} characters")
+            
+            # Create messages for chat completion
+            messages = [
+                {
+                    "role": "system",
+                    "content": "You are a helpful AI assistant that answers questions based on the provided documents. Always cite the document names when providing information. Be concise and accurate."
+                },
+                {
+                    "role": "user",
+                    "content": f"Context from documents:\n\n{context_text}\n\nQuestion: {query}\n\nPlease answer the question based on the context provided above."
+                }
+            ]
+            
+            logger.info("Calling OpenRouter API...")
+            
+            # Generate response using OpenRouter
             loop = asyncio.get_event_loop()
-            
-            logger.info("Calling Cohere API...")
             response = await loop.run_in_executor(
                 None,
-                lambda: self.client.chat(
+                lambda: self.client.chat.completions.create(
                     model=self.llm_model,
-                    message=query,
-                    documents=documents,
+                    messages=messages,
                     temperature=0.3,
-                    max_tokens=1000,  # Reduced for faster response
-                    prompt_truncation='AUTO'
+                    max_tokens=1000
                 )
             )
-            logger.info("Cohere API call completed")
             
-            if not response:
-                raise Exception("Failed to get response from Cohere API")
+            logger.info("OpenRouter API call completed")
             
-            answer = response.text.strip()
+            if not response or not response.choices:
+                raise Exception("Failed to get response from OpenRouter API")
+            
+            answer = response.choices[0].message.content.strip()
             logger.info(f"Generated answer with {len(answer)} characters")
             
             # Enhanced answer cleaning
@@ -235,9 +248,6 @@ Please provide a detailed answer based on the information in the documents above
             # Validate answer quality
             if len(answer) < 10:
                 logger.warning("Answer too short, using fallback")
-                answer = f"Based on the document '{context_chunks[0]['document_name']}', here's what I found:\n\n{context_chunks[0]['content'][:500]}..."
-            elif answer.count('0') > len(answer) * 0.3:
-                logger.warning("Answer seems corrupted, using fallback")
                 answer = f"Based on the document '{context_chunks[0]['document_name']}', here's what I found:\n\n{context_chunks[0]['content'][:500]}..."
             
             # Prepare enhanced sources
