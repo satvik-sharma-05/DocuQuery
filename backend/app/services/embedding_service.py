@@ -1,4 +1,4 @@
-from openai import OpenAI
+import cohere
 import logging
 from app.core.config import settings
 from typing import List
@@ -7,10 +7,7 @@ logger = logging.getLogger(__name__)
 
 class EmbeddingService:
     def __init__(self):
-        self.client = OpenAI(
-            api_key=settings.OPENROUTER_API_KEY,
-            base_url="https://openrouter.ai/api/v1"
-        )
+        self.client = cohere.Client(settings.COHERE_API_KEY)
         self.model = settings.EMBEDDING_MODEL
         self.dimension = settings.EMBEDDING_DIMENSION
     
@@ -21,30 +18,31 @@ class EmbeddingService:
                 raise ValueError("Text cannot be empty")
             
             # Truncate if too long
-            max_length = 8000  # OpenAI token limit
+            max_length = 8000
             if len(text) > max_length:
                 text = text[:max_length]
                 logger.warning(f"Text truncated to {max_length} characters")
             
-            logger.info(f"🔵 OPENROUTER API CALL - Generating embedding for text of length {len(text)}")
+            logger.info(f"🔵 COHERE API CALL - Generating embedding for text of length {len(text)}")
             logger.info(f"🔵 Using model: {self.model}")
             
-            # Generate embedding using OpenRouter
-            response = self.client.embeddings.create(
+            # Generate embedding using Cohere
+            response = self.client.embed(
+                texts=[text],
                 model=self.model,
-                input=text
+                input_type="search_document"
             )
             
-            if not response.data or len(response.data) == 0:
-                raise ValueError("No embeddings returned from OpenRouter")
+            if not response.embeddings or len(response.embeddings) == 0:
+                raise ValueError("No embeddings returned from Cohere")
             
-            embedding = response.data[0].embedding
-            logger.info(f"✅ OPENROUTER API SUCCESS - Generated embedding with {len(embedding)} dimensions")
+            embedding = response.embeddings[0]
+            logger.info(f"✅ COHERE API SUCCESS - Generated embedding with {len(embedding)} dimensions")
             
             return embedding
             
         except Exception as e:
-            logger.error(f"❌ OPENROUTER API ERROR - Error generating embedding: {str(e)}")
+            logger.error(f"❌ COHERE API ERROR - Error generating embedding: {str(e)}")
             raise
     
     async def generate_embeddings_batch(self, texts: List[str]) -> List[List[float]]:
@@ -58,7 +56,7 @@ class EmbeddingService:
             if not valid_texts:
                 raise ValueError("No valid texts to embed")
             
-            logger.info(f"🔵 OPENROUTER API CALL - Generating embeddings for {len(valid_texts)} texts")
+            logger.info(f"🔵 COHERE API CALL - Generating embeddings for {len(valid_texts)} texts")
             logger.info(f"🔵 Using model: {self.model}")
             
             # Truncate texts if needed
@@ -68,29 +66,56 @@ class EmbeddingService:
                 for t in valid_texts
             ]
             
-            # Generate embeddings using OpenRouter
-            response = self.client.embeddings.create(
+            # Generate embeddings using Cohere
+            response = self.client.embed(
+                texts=truncated_texts,
                 model=self.model,
-                input=truncated_texts
+                input_type="search_document"
             )
             
-            if not response.data:
-                raise ValueError("No embeddings returned from OpenRouter")
+            if not response.embeddings:
+                raise ValueError("No embeddings returned from Cohere")
             
-            embeddings = [item.embedding for item in response.data]
-            logger.info(f"✅ OPENROUTER API SUCCESS - Generated {len(embeddings)} embeddings")
+            embeddings = response.embeddings
+            logger.info(f"✅ COHERE API SUCCESS - Generated {len(embeddings)} embeddings")
             
             return embeddings
             
         except Exception as e:
-            logger.error(f"❌ OPENROUTER API ERROR - Error generating batch embeddings: {str(e)}")
+            logger.error(f"❌ COHERE API ERROR - Error generating batch embeddings: {str(e)}")
             raise
     
     async def generate_query_embedding(self, text: str) -> List[float]:
-        """Generate embedding for a query (same as document embedding)"""
-        # For now, use the same method as document embedding
-        # In the future, you could use a different input_type for queries
-        return await self.generate_embedding(text)
+        """Generate embedding for a query"""
+        try:
+            if not text or not text.strip():
+                raise ValueError("Text cannot be empty")
+            
+            # Truncate if too long
+            max_length = 8000
+            if len(text) > max_length:
+                text = text[:max_length]
+            
+            logger.info(f"🔵 COHERE API CALL - Generating query embedding")
+            
+            # Use search_query input type for queries
+            response = self.client.embed(
+                texts=[text],
+                model=self.model,
+                input_type="search_query"
+            )
+            
+            if not response.embeddings or len(response.embeddings) == 0:
+                raise ValueError("No embeddings returned from Cohere")
+            
+            embedding = response.embeddings[0]
+            logger.info(f"✅ COHERE API SUCCESS - Generated query embedding with {len(embedding)} dimensions")
+            
+            return embedding
+            
+        except Exception as e:
+            logger.error(f"❌ COHERE API ERROR - Error generating query embedding: {str(e)}")
+            raise
 
 # Global instance
 embedding_service = EmbeddingService()

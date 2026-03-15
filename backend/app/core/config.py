@@ -19,11 +19,10 @@ class Settings:
     SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
     SUPABASE_DB_URL = os.getenv("SUPABASE_DB_URL")
     
-    # OpenRouter AI
-    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "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")
-    LLM_MODEL = os.getenv("LLM_MODEL", "meta-llama/llama-3.1-8b-instruct:free")
-    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "openai/text-embedding-3-small")
-    EMBEDDING_DIMENSION = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
+    # Cohere AI
+    COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "embed-english-v3.0")
+    EMBEDDING_DIMENSION = int(os.getenv("EMBEDDING_DIMENSION", "1024"))
     
     # RAG Settings
     CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "1000"))

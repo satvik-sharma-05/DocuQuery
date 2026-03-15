@@ -1,4 +1,4 @@
-from openai import OpenAI
+import cohere
 from app.core.config import settings
 from app.services.embedding_service import embedding_service
 from app.models.database import db
@@ -11,11 +11,7 @@ logger = logging.getLogger(__name__)
 
 class EnhancedRAGPipeline:
     def __init__(self):
-        self.client = OpenAI(
-            api_key=settings.OPENROUTER_API_KEY,
-            base_url="https://openrouter.ai/api/v1"
-        )
-        self.llm_model = settings.LLM_MODEL
+        self.client = cohere.Client(settings.COHERE_API_KEY)
         self.top_k = settings.TOP_K_RESULTS
         self.embedding_dimension = settings.EMBEDDING_DIMENSION
         
@@ -208,40 +204,38 @@ Please provide a detailed answer based on the information in the documents above
             
             logger.info(f"Prepared context with {len(context_text)} characters")
             
-            # Create messages for chat completion
-            messages = [
-                {
-                    "role": "system",
-                    "content": "You are a helpful AI assistant that answers questions based on the provided documents. Always cite the document names when providing information. Be concise and accurate."
-                },
-                {
-                    "role": "user",
-                    "content": f"Context from documents:\n\n{context_text}\n\nQuestion: {query}\n\nPlease answer the question based on the context provided above."
-                }
-            ]
+            # Create prompt for Cohere
+            prompt = f"""You are a helpful AI assistant that answers questions based on the provided documents. Always cite the document names when providing information. Be concise and accurate.
+
+Context from documents:
+
+{context_text}
+
+Question: {query}
+
+Please answer the question based on the context provided above."""
             
-            logger.info(f"🟢 OPENROUTER LLM API CALL - Generating answer")
-            logger.info(f"🟢 Using model: {self.llm_model}")
+            logger.info(f"🟢 COHERE LLM API CALL - Generating answer")
             logger.info(f"🟢 Context chunks: {len(context_chunks)}")
             
-            # Generate response using OpenRouter
+            # Generate response using Cohere
             loop = asyncio.get_event_loop()
             response = await loop.run_in_executor(
                 None,
-                lambda: self.client.chat.completions.create(
-                    model=self.llm_model,
-                    messages=messages,
+                lambda: self.client.generate(
+                    prompt=prompt,
+                    max_tokens=1000,
                     temperature=0.3,
-                    max_tokens=1000
+                    stop_sequences=[]
                 )
             )
             
-            logger.info(f"✅ OPENROUTER LLM API SUCCESS - Response received")
+            logger.info(f"✅ COHERE LLM API SUCCESS - Response received")
             
-            if not response or not response.choices:
-                raise Exception("Failed to get response from OpenRouter API")
+            if not response or not response.generations:
+                raise Exception("Failed to get response from Cohere API")
             
-            answer = response.choices[0].message.content.strip()
+            answer = response.generations[0].text.strip()
             logger.info(f"Generated answer with {len(answer)} characters")
             
             # Enhanced answer cleaning
