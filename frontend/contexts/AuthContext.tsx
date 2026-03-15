@@ -26,6 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         let mounted = true
+        let isInitializing = true
 
         const initializeAuth = async () => {
             try {
@@ -65,6 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     console.log('Auth initialization complete')
                     setLoading(false)
                     setInitialized(true)
+                    isInitializing = false
                 }
             }
         }
@@ -75,6 +77,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
             async (event, session) => {
                 console.log('Auth state change:', event, session ? 'session exists' : 'no session')
+
+                // Ignore auth state changes during initialization to prevent duplicate API calls
+                if (isInitializing) {
+                    console.log('Ignoring auth state change during initialization')
+                    return
+                }
 
                 if (!mounted) return
 
