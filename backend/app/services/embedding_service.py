@@ -85,6 +85,12 @@ class EmbeddingService:
         except Exception as e:
             logger.error(f"❌ OPENROUTER API ERROR - Error generating batch embeddings: {str(e)}")
             raise
+    
+    async def generate_query_embedding(self, text: str) -> List[float]:
+        """Generate embedding for a query (same as document embedding)"""
+        # For now, use the same method as document embedding
+        # In the future, you could use a different input_type for queries
+        return await self.generate_embedding(text)
 
 # Global instance
 embedding_service = EmbeddingService()
