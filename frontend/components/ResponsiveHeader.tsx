@@ -11,12 +11,22 @@ import {
     User,
     Menu,
     Plus,
-    Building2
+    Building2,
+    Mail
 } from 'lucide-react'
 import { useWorkspace } from '@/contexts/WorkspaceContext'
 import { useAuth } from '@/contexts/AuthContext'
 import CreateWorkspaceModal from './CreateWorkspaceModal'
 import { toast } from 'sonner'
+import api from '@/lib/api'
+
+interface Invitation {
+    id: string
+    workspace_name: string
+    invited_by_name: string
+    role: string
+    created_at: string
+}
 
 interface ResponsiveHeaderProps {
     onMobileMenuToggle: () => void
@@ -32,10 +42,13 @@ export default function ResponsiveHeader({
     const router = useRouter()
     const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false)
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
+    const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false)
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
+    const [invitations, setInvitations] = useState<Invitation[]>([])
     const workspaceDropdownRef = useRef<HTMLDivElement>(null)
     const userDropdownRef = useRef<HTMLDivElement>(null)
+    const notificationDropdownRef = useRef<HTMLDivElement>(null)
 
     // Check mobile state
     useEffect(() => {
@@ -47,6 +60,23 @@ export default function ResponsiveHeader({
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
+    // Fetch invitations
+    useEffect(() => {
+        fetchInvitations()
+        // Poll for new invitations every 30 seconds
+        const interval = setInterval(fetchInvitations, 30000)
+        return () => clearInterval(interval)
+    }, [])
+
+    const fetchInvitations = async () => {
+        try {
+            const response = await api.get('/api/invitations/')
+            setInvitations(response.data)
+        } catch (error) {
+            console.error('Failed to fetch invitations:', error)
+        }
+    }
+
     // Close dropdowns when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -55,6 +85,9 @@ export default function ResponsiveHeader({
             }
             if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
                 setIsUserDropdownOpen(false)
+            }
+            if (notificationDropdownRef.current && !notificationDropdownRef.current.contains(event.target as Node)) {
+                setIsNotificationDropdownOpen(false)
             }
         }
 
@@ -202,15 +235,90 @@ export default function ResponsiveHeader({
                         </div>
 
                         {/* Notifications */}
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-                            title="Notifications"
-                        >
-                            <Bell className="w-5 h-5" />
-                            <span className="absolute top-1 right-1 w-2 h-2 bg-primary-500 rounded-full"></span>
-                        </motion.button>
+                        <div className="relative" ref={notificationDropdownRef}>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setIsNotificationDropdownOpen(!isNotificationDropdownOpen)}
+                                className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                                title="Notifications"
+                            >
+                                <Bell className="w-5 h-5" />
+                                {invitations.length > 0 && (
+                                    <span className="absolute top-1 right-1 w-5 h-5 bg-primary-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                                        {invitations.length}
+                                    </span>
+                                )}
+                            </motion.button>
+
+                            <AnimatePresence>
+                                {isNotificationDropdownOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+                                    >
+                                        <div className="p-4">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <h3 className="text-sm font-semibold text-gray-900">Notifications</h3>
+                                                {invitations.length > 0 && (
+                                                    <span className="text-xs text-gray-500">{invitations.length} new</span>
+                                                )}
+                                            </div>
+
+                                            {invitations.length === 0 ? (
+                                                <div className="text-center py-8">
+                                                    <Bell className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                                                    <p className="text-sm text-gray-500">No new notifications</p>
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-2 max-h-96 overflow-y-auto">
+                                                    {invitations.map((invitation) => (
+                                                        <motion.div
+                                                            key={invitation.id}
+                                                            whileHover={{ x: 4 }}
+                                                            onClick={() => {
+                                                                router.push('/dashboard/invitations')
+                                                                setIsNotificationDropdownOpen(false)
+                                                            }}
+                                                            className="p-3 bg-blue-50 border border-blue-100 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors"
+                                                        >
+                                                            <div className="flex items-start space-x-3">
+                                                                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                    <Mail className="w-4 h-4 text-white" />
+                                                                </div>
+                                                                <div className="flex-1 min-w-0">
+                                                                    <p className="text-sm font-medium text-gray-900">
+                                                                        Workspace Invitation
+                                                                    </p>
+                                                                    <p className="text-xs text-gray-600 mt-1">
+                                                                        {invitation.invited_by_name} invited you to join <span className="font-medium">{invitation.workspace_name}</span> as {invitation.role}
+                                                                    </p>
+                                                                    <p className="text-xs text-gray-400 mt-1">
+                                                                        {new Date(invitation.created_at).toLocaleDateString()}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </motion.div>
+                                                    ))}
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.02 }}
+                                                        onClick={() => {
+                                                            router.push('/dashboard/invitations')
+                                                            setIsNotificationDropdownOpen(false)
+                                                        }}
+                                                        className="w-full py-2 text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
+                                                    >
+                                                        View all invitations →
+                                                    </motion.button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
                         {/* User Menu */}
                         <div className="relative" ref={userDropdownRef}>

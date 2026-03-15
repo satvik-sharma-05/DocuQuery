@@ -13,7 +13,7 @@ export default function LoadingPage({ message = 'Loading...' }: LoadingPageProps
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center"
+                className="text-center space-y-4"
             >
                 <motion.div
                     animate={{ rotate: 360 }}
@@ -30,6 +30,14 @@ export default function LoadingPage({ message = 'Loading...' }: LoadingPageProps
                     className="mt-4"
                 >
                     <div className="w-8 h-1 bg-primary-500 rounded-full mx-auto"></div>
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1 }}
+                    className="text-xs text-amber-600 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200 max-w-md mx-auto mt-4"
+                >
+                    ⚡ Running on free tier with free AI models. Services may take longer or temporarily shut down.
                 </motion.div>
             </motion.div>
         </div>

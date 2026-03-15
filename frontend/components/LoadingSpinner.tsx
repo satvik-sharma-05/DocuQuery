@@ -34,6 +34,14 @@ export default function LoadingSpinner({
                     {message}
                 </motion.p>
             )}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-xs text-amber-600 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200 max-w-md text-center"
+            >
+                ⚡ Running on free tier with free AI models. Services may take longer or temporarily shut down.
+            </motion.div>
             {showPersistentMessage && (
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
